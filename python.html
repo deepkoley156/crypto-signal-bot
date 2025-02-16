@@ -1,0 +1,56 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading Signals</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background: #e3f2fd; }
+        table { width: 80%; margin: 20px auto; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid black; }
+        th { background: #42a5f5; color: white; }
+        .up { color: green; }
+        .down { color: red; }
+    </style>
+</head>
+<body>
+
+    <h1>Real-Time AI Trading Signals</h1>
+    <table>
+        <tr>
+            <th>Coin</th>
+            <th>Price (USD)</th>
+            <th>Stop Loss</th>
+            <th>Target</th>
+            <th>Direction</th>
+        </tr>
+        <tr id="signalRow">
+            <td>BTC</td>
+            <td id="price">Loading...</td>
+            <td id="stop_loss">Loading...</td>
+            <td id="target">Loading...</td>
+            <td id="direction">Loading...</td>
+        </tr>
+    </table>
+
+    <script>
+        function fetchData() {
+            fetch("https://yourapp.railway.app/signal") // এখানে তোমার Railway API URL বসাও
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("price").innerText = data.price.toFixed(2);
+                    document.getElementById("stop_loss").innerText = data.stop_loss.toFixed(2);
+                    document.getElementById("target").innerText = data.target.toFixed(2);
+                    let directionElement = document.getElementById("direction");
+                    directionElement.innerText = data.direction;
+                    directionElement.className = data.direction === "Upside" ? "up" : "down";
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        }
+
+        setInterval(fetchData, 5000); // 5 সেকেন্ড পরপর আপডেট হবে
+        fetchData(); // প্রথমবার কল করবে
+    </script>
+
+</body>
+</html>
